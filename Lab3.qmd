@@ -29,4 +29,11 @@ grades |>
   summarise(min_Exam= min(Exam, na.rm=TRUE), max_Exam= max(Exam, na.rm=TRUE), mean_Exam=mean(Exam, na.rm=TRUE), median_Exam=median(Exam, na.rm=TRUE)) |>
 knitr::kable()
 ```
+## Question 3
+```{r}
+num_student_without_fe <- grades |> 
+  filter(is.na(Exam)) |>
+  nrow()
+```
+The number of students who did not take the final exam is `r num_student_without_fe`.
 
