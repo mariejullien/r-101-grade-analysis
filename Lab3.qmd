@@ -37,3 +37,11 @@ num_student_without_fe <- grades |>
 ```
 The number of students who did not take the final exam is `r num_student_without_fe`.
 
+## Question 4
+```{r}
+grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30) + geom_rug()
+```
+
+## Question 5
+
+
