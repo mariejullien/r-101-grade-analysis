@@ -1,7 +1,8 @@
 ---
 title: "grade_analysis_lab"
 author: "Marie JULLIEN"
-format: html
+format: html:
+  code-fold:true
 editor: visual
 ---
 
@@ -47,5 +48,16 @@ grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogr
 grades |> group_by(Group) |> 
   summarise(n=n()) |>
   knitr::kable()
+```
+
+## Question 6
+```{r}
+grades |> group_by(Group) |> 
+  ggplot(aes(y=Group)) + geom_bar() +ggtitle("Number of students in each group")
+```
+## Question 7
+```{r}
+grades |> group_by(Group) |>
+  ggplot(aes(x=Exam))
 ```
 
