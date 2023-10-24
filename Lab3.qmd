@@ -8,6 +8,7 @@ editor: visual
 https://github.com/mariejullien/r-101-grade-analysis.git
 
 ```{r}
+#| message: false
 library(here)
 here::i_am("Lab3.qmd")
 library(ggplot2)
@@ -15,7 +16,11 @@ library(dplyr)
 library(tidyr)
 library(vroom)
 ```
-```{r}
 
+## Question 1
+
+```{r}
+#| message: false
+grades <-vroom(here("grades.csv"))
 ```
 
