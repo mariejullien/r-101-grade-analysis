@@ -39,9 +39,13 @@ The number of students who did not take the final exam is `r num_student_without
 
 ## Question 4
 ```{r}
-grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30) + geom_rug()
+grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30) + geom_rug() + ggtitle('Distribution of grades at the final exam')
 ```
 
 ## Question 5
-
+```{r}
+grades |> group_by(Group) |> 
+  summarise(n=n()) |>
+  knitr::kable()
+```
 
