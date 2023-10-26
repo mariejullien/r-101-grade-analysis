@@ -1,8 +1,7 @@
 ---
 title: "grade_analysis_lab"
 author: "Marie JULLIEN"
-format: html:
-  code-fold:true
+format: html
 editor: visual
 ---
 
@@ -24,26 +23,33 @@ library(vroom)
 #| message: false
 grades <-vroom(here("grades.csv"))
 ```
+
 ## Question 2
+
 ```{r}
 grades |> 
   summarise(min_Exam= min(Exam, na.rm=TRUE), max_Exam= max(Exam, na.rm=TRUE), mean_Exam=mean(Exam, na.rm=TRUE), median_Exam=median(Exam, na.rm=TRUE)) |>
 knitr::kable()
 ```
+
 ## Question 3
+
 ```{r}
 num_student_without_fe <- grades |> 
   filter(is.na(Exam)) |>
   nrow()
 ```
+
 The number of students who did not take the final exam is `r num_student_without_fe`.
 
 ## Question 4
+
 ```{r}
-grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30) + geom_rug() + ggtitle('Distribution of grades at the final exam')
+grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30) + geom_rug() + labs(title='Distribution of grades at the final exam')
 ```
 
 ## Question 5
+
 ```{r}
 grades |> group_by(Group) |> 
   summarise(n=n()) |>
@@ -51,13 +57,67 @@ grades |> group_by(Group) |>
 ```
 
 ## Question 6
+
 ```{r}
 grades |> group_by(Group) |> 
-  ggplot(aes(y=Group)) + geom_bar() +ggtitle("Number of students in each group")
+  ggplot(aes(y=Group)) + geom_bar() +labs(title="Number of students in each group")
 ```
+
 ## Question 7
+
+### Graphique 1
+
 ```{r}
-grades |> group_by(Group) |>
-  ggplot(aes(x=Exam))
+grades |> 
+  ggplot(aes(x=Group, y=Exam, na.rm=TRUE)) + geom_boxplot() + labs(title = "Distribution of grades conditionned by the group")
+```
+
+### Graphique 2
+
+```{r}
+grades |> 
+  ggplot(aes(x=Group, y=Exam, na.rm=TRUE)) + geom_violin() +coord_flip() +labs(title="Distribution of grades conditionned by the group")
+```
+
+## Question 8 
+```{r}
+grades |>
+  group_by(Group) |>
+  summarise(nb_missed_exam = sum(is.na(Exam)))
+```
+## Question 9 
+
+```{r}
+grades |>
+  group_by(Group) |>
+  summarise(nb_missed_exam = sum(is.na(Exam))) |>
+  ggplot(aes(x=Group, y=nb_missed_exam)) +geom_col() + labs(title="Nb of students who missed the exam in each group", y="Nb of students who missed the exam")
+```
+
+## Question 10
+
+```{r}
+longgrades <- grades |>
+  pivot_longer(cols=-c(Id, Group))
+```
+
+## Question 11
+```{r}
+longgrades |> summarise(totalnb_missing=sum(is.na(value)))
+```
+## Question 12
+```{r}
+missinggrade <- longgrades |> group_by(Id) |>
+  summarise(missing_gradestd=sum(is.na(value)))
+```
+
+```{r}
+ggplot(missinggrade, aes(x=missing_gradestd)) + geom_histogram(binwidth = 1, alpha=0.9) +
+  labs(title="Missing grades per student",x="Nb of missing grades",y="Frequency")
+```
+
+## Question 13
+```{r}
+longgrades
 ```
 
