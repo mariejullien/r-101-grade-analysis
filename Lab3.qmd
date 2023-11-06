@@ -118,6 +118,9 @@ ggplot(missinggrade, aes(x=missing_gradestd)) + geom_histogram(binwidth = 1, alp
 
 ## Question 13
 ```{r}
-longgrades
+longgrades |> 
+  filter(name=='Exam') |>
+  group_by(Group) |>
+  summarise(nb_missed_exam = sum(is.na(value)))
 ```
-
+#Question 14
