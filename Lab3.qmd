@@ -148,3 +148,13 @@ merged_q14 |>
   ggplot(aes(x=Exam)) + geom_bar() +xlab("Grades at the exam")+ ylab("Number of test missed online")
 ```
 
+# Question 16
+```{r}
+q16 <- grades |>
+  select(Id, starts_with("MCQ_")) 
+missed_counts <- rowSums(is.na(q16))
+q16 <- mutate(q16, Missed = missed_counts > 0) |>
+  select(-starts_with("MCQ_"))
+```
+
+
