@@ -124,3 +124,15 @@ longgrades |>
   summarise(nb_missed_exam = sum(is.na(value)))
 ```
 #Question 14
+```{r}
+library(stringr)
+```
+
+```{r}
+longgrades |> 
+  filter(str_starts(name,"Online")) |>
+  group_by(Id) |>
+  summarise(nb_missed_exam_online = sum(is.na(value)))
+
+```
+
