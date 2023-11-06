@@ -129,10 +129,22 @@ library(stringr)
 ```
 
 ```{r}
-longgrades |> 
+q14 <- longgrades |> 
   filter(str_starts(name,"Online")) |>
   group_by(Id) |>
   summarise(nb_missed_exam_online = sum(is.na(value)))
 
+```
+
+# Question 15
+```{r}
+merged_q14 <- grades |> 
+  left_join(q14, by="Id")
+```
+
+```{r}
+merged_q14 |>
+  group_by(nb_missed_exam_online) |>
+  ggplot(aes(x=Exam)) + geom_bar() +xlab("Grades at the exam")+ ylab("Number of test missed online")
 ```
 
