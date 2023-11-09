@@ -155,6 +155,22 @@ q16 <- grades |>
 missed_counts <- rowSums(is.na(q16))
 q16 <- mutate(q16, Missed = missed_counts > 0) |>
   select(-starts_with("MCQ_"))
+q16
+knitr::kable(q16)
 ```
+# Question 17
+
+```{r}
+q17 <- q16 %>%
+  left_join(grades %>% select(Id, Group), by = "Id") %>%
+  group_by(Group) %>%
+ mutate(count=sum(Missed), 
+           P_missed = (count / n()) * 100) |>
+  select(-c(Id, Missed, count))
+knitr::kable(q17)
+```
+
+
+
 
 
