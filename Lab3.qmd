@@ -48,7 +48,7 @@ The number of students who did not take the final exam is `r num_student_without
 ## Question 4
 
 ```{r}
-grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30) + geom_rug() + labs(title='Distribution of grades at the final exam')
+grades |> filter(Exam != "NA") |> ggplot(aes(x=Exam, na.rm=TRUE)) + geom_histogram(bins=30, color="black", fill="blue") + geom_rug() + labs(title='Distribution of grades at the final exam')
 ```
 The values go from 0 to 20. The grades do not follow a particular distribution.
 ## Question 5
@@ -94,9 +94,10 @@ grades |>
 grades |>
   group_by(Group) |>
   summarise(nb_missed_exam = sum(is.na(Exam))) |>
-  ggplot(aes(x=Group, y=nb_missed_exam)) +geom_col() + labs(title="Nb of students  missed exam per group", y="Nb of students missed exam")
+  ggplot(aes(x=Group, y=nb_missed_exam)) +geom_col(fill="blue") + labs(title="Nb of students  missed exam per group", y="Nb of students missed exam")
 ```
 We notice that there are certain group where there are no students who missed the exam. 
+
 ## Question 10
 
 ```{r}
@@ -112,7 +113,7 @@ missinggrades <-longgrades |>
 ## Question 12
 
 ```{r}
-ggplot(missinggrades, aes(x=totalnb_missing)) + geom_histogram(binwidth = 1, alpha=0.9, fill="blue", color="black") +
+ggplot(missinggrades, aes(x=totalnb_missing)) + geom_histogram(binwidth = 1, fill="blue", color="black") +
   labs(title="Missing grades per student",x="Nb of missing grades",y="Frequency")
 ```
 
@@ -130,7 +131,6 @@ q14 <- longgrades |>
   filter(str_starts(name,"Online")) |>
   group_by(Id) |>
   summarise(nb_missed_exam_online = sum(is.na(value)))
-knitr::kable(q14)
 ```
 
 # Question 15
@@ -144,6 +144,7 @@ merged_q14 |>
   group_by(nb_missed_exam_online) |>
   ggplot(aes(x=Exam)) + geom_bar() +xlab("Grades at the exam")+ ylab("Number of test missed online")
 ```
+We notice that as the grade at the exam increases the numner of test missed online is decreasing. 
 
 # Question 16
 ```{r}
@@ -153,7 +154,6 @@ missed_counts <- rowSums(is.na(q16))
 q16 <- mutate(q16, Missed = missed_counts > 0) |>
   select(-starts_with("MCQ_"))
 q16
-knitr::kable(q16)
 ```
 # Question 17
 
@@ -164,7 +164,7 @@ q17 <- q16 %>%
  mutate(count=sum(Missed), 
            P_missed = (count / n()) * 100) |>
   select(-c(Id, Missed, count))
-knitr::kable(q17)
+
 ```
 
 # Question 18
@@ -182,7 +182,8 @@ avgexam <- grades |>
 ```{r}
 q18 <- inner_join(q17,avgexam, by="Group") 
 ggplot(q18, aes(x = P_missed, y = avg), size=6) +
-  geom_point(aes(color = Group))
+  geom_point(aes(color = Group)) +
+  labs(title="Avg grade at the exam per group", y="Avg grade")
 ```
 
 We notice that the percentage of missed exam is mostly between 0 and 50% and that the average grade goes from 0 to 13. 
