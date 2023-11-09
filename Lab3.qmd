@@ -170,7 +170,21 @@ q17 <- q16 %>%
 knitr::kable(q17)
 ```
 
+# Question 18
+```{r}
+avgexam <- grades |>
+  select(Group, Exam)|>
+  group_by(Group) |>
+  mutate(avg=mean(Exam, na.rm=TRUE)) |>
+  distinct(Group, .keep_all=TRUE) |>
+  select(c(-Exam))
+```
 
 
 
+```{r}
+q18 <- inner_join(q17,avgexam, by="Group") 
+ggplot(q18, aes(x = P_missed, y = avg), size=6) +
+  geom_point(aes(color = Group))
+```
 
